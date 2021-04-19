@@ -12,8 +12,8 @@
     <artifactId>sso</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>sso-interface</module>
         <module>sso-service</module>
+        <module>sso-interface</module>
     </modules>
 
     <properties>
