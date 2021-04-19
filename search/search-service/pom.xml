@@ -112,4 +112,24 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <!-- 项目打包时会将java目录中的*.xml文件也进行打包 -->
+        <resources>
+            <!-- 表示编译java源码时，包含src/main/java和src/main/resources目录下的xml、properties一起 -->
+            <!--如果mapper.xml在src/main/java目录下，就必须做这个配置，不然编译后会丢弃mapper.xml文件-->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
 </project>
