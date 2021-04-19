@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.dlq.common.pojo.QIResult;
-import com.dlq.common.utils.CookieUtils;
-import com.dlq.common.utils.JsonUtils;
+import com.dlq.common.util.CookieUtils;
+import com.dlq.common.util.JsonUtils;
 import com.dlq.order.pojo.OrderInfo;
 import com.dlq.order.service.QioOrderService;
 import com.dlq.pojo.QioItems;
