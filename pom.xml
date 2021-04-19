@@ -20,6 +20,8 @@
         <module>spring-security-demo</module>
         <module>order</module>
         <module>order-web</module>
+        <module>sso</module>
+        <module>sso-web</module>
     </modules>
     <packaging>pom</packaging>
 
