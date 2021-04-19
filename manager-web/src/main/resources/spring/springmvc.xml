@@ -35,8 +35,8 @@
 	</mvc:annotation-driven>
 
 	<!-- 引用dubbo 服务 -->
-	<dubbo:application name="controller-web" />
+	<dubbo:application name="manager-web" />
 	<dubbo:registry address="zookeeper://192.168.142.129:2181"/>
-	<dubbo:annotation package="com.qi.manager.controller" />  	
+	<dubbo:annotation package="com.dlq.manager.controller" />  	
 
 </beans>
