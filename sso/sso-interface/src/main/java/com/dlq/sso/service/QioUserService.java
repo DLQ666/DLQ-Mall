@@ -13,10 +13,10 @@ public interface QioUserService {
 	QIResult login(String custname, String custpassword);
 	
 	QIResult getUserByToken(String token);
-	
+
 	QioUserAddress selectByPrimaryKey(Integer id);
-	
+
 	QioUser getUserById(Integer id);
-	
+
 	void updateUserById(QioUser qioUser);
 }

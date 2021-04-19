@@ -1,8 +1,10 @@
-package com.dlq.service.impl;
+package com.dlq.sso.service.impl;
 
 import java.util.List;
 import java.util.UUID;
 
+import com.dlq.mapper.QioUserAddressMapper;
+import com.dlq.pojo.QioUserAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.DigestUtils;
@@ -12,10 +14,8 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.dlq.common.pojo.QIResult;
 import com.dlq.common.util.JsonUtils;
 import com.dlq.jedis.JedisClient;
-import com.dlq.mapper.QioUserAddressMapper;
 import com.dlq.mapper.QioUserMapper;
 import com.dlq.pojo.QioUser;
-import com.dlq.pojo.QioUserAddress;
 import com.dlq.pojo.QioUserExample;
 import com.dlq.pojo.QioUserExample.Criteria;
 import com.dlq.sso.service.QioUserService;
@@ -151,9 +151,7 @@ public class QioUserServiceImpl implements QioUserService {
 	public void updateUserById(QioUser qioUser) {
 		int updateByPrimaryKey = qioUserMapper.updateByPrimaryKey(qioUser);
 		System.out.println("修改成功"+updateByPrimaryKey);
-		
+
 	}
-	
-	
 
 }
