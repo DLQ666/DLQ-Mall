@@ -12,7 +12,7 @@ public class TestFsatDFS {
 	@Test
 	public void uploadFile() throws Exception{
 		
-		ClientGlobal.init("D:\\Desktop\\gitmall\\Tao-Mall\\manager-web\\src\\main\\resources\\fastDFS\\fdfs_client.conf");
+		ClientGlobal.init("D:\\IDEA workspace\\Tao-Mall\\manager-web\\src\\main\\resources\\fastDFS\\fdfs_client.conf");
 		
 		TrackerClient trackerClient=new TrackerClient();
 		TrackerServer trackerServer=trackerClient.getConnection();
