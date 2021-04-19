@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>奇酷商城，欢迎登录</title>
+	<!-- 浏览器标签中小图标 -->
+	<!-- 地址栏显示 -->
+	<link rel="Shortcut Icon" href="/qi-style/icon.png"  type="image/x-icon" />
+	<!-- 收藏栏也显示 -->
+	<link rel="Bookmark" href="/qi-style/icon.png" type="image/x-icon" />
+	 
+    <link rel="stylesheet" type="text/css" href="qi-style/css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="qi-style/css/qi-login.css" />
+</head>
+<body>
+	<div class="login-box">
+		<!--head-->
+		<div class="h_panel">
+			<div class="h_logo">
+        </div>
+         <div class="h_logo2">
+         <h1 class="manage-title">奇酷电子商城后台管理系统</h1>
+        </div>
+    </div>
+		<!--loginArea-->
+		<div class="loginArea">
+			<div class="login ">
+				<div class="py-container">
+					<div class="loginform">
+						<ul class="sui-nav nav-tabs tab-wraped">
+							<li><a href="#profile" data-toggle="tab">
+									<h3>管理员账户登录</h3>
+							</a></li>
+						</ul>
+						<div class="tab-content tab-wraped">
+							<div id="profile" class="tab-pane  active">
+								<form class="sui-form" action="/login" method="post" id="qilogin">
+									<div class="input-prepend">
+										<input name="qiuser" type="text"
+											placeholder="用户名" class="span2 input-xfat">
+									</div>
+									<div class="input-prepend">
+										 <input name="qipassword" type="password"
+											placeholder="请输入密码" class="span2 input-xfat">
+									</div>
+									<div class="setting">
+										<h4>用户名或密码错误</h4>
+									</div>
+									<div class="logined">
+										<a class="sui-btn btn-block btn-xlarge btn-danger"	onclick="document:qilogin.submit()"	target="_blank">登&nbsp;&nbsp;录</a>
+									</div>
+								</form>
+								<!-- <div class="otherlogin">
+									<div class="types">
+										 <ul>
+											<li><img src="qi-style/img/dlqq.png" width="35px" height="35px" /></li>
+											<li><img src="qi-style/img/dlwb.png" /></li>
+											<li><img src="qi-style/img/dlzfb.png" /></li>
+											<li><img src="qi-style/img/dlwx.png" /></li>
+										</ul> 
+									</div>
+									<span><a href="/page/register" clstag="passport|keycount|login|08">免费注册&gt;&gt;</a></span>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--foot-->
+		<div class="py-container copyright">
+			<ul>
+				<li>关于我们</li>
+				<li>联系我们</li>
+				<li>联系客服</li>
+				<li>营销中心</li>
+				<li>常见问题</li>
+				<li>隐私政策</li>
+			</ul>
+			<div class="address">地址：吉林省 吉林市 昌邑区 九站街道 吉林农业科技学院9公寓510室&nbsp &nbsp邮编：130000</div>
+			<div class="address"> 电话：+86-155-26545251  &nbsp &nbsp邮箱：dlq96610@gmail.com</div>
+			</div>
+		</div>
+</body>
+</html>

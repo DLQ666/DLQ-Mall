@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>商品添加</title>
+<link rel="stylesheet" href="../qi-style/css/bootstrap.css">
+<link rel="stylesheet" href="../qi-style/css/qi-admin.css">
+<link rel="stylesheet"
+	href="../qi-style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../qi-style/css/morris-0.4.3.min.css">
+
+<!-- 引入富文本编辑器 -->
+<link href="../qi-style/kindeditor-4.1.10/themes/default/default.css"
+	type="text/css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8"
+	src="../qi-style/kindeditor-4.1.10/kindeditor-all-min.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="../qi-style/kindeditor-4.1.10/lang/zh_CN.js"></script>
+	
+<!-- angular js引入 -->
+<script type="text/javascript"	src="../qi-style/angularjs/angular.min.js"></script>
+
+<!-- JavaScript -->
+<script src="../qi-style/js/jquery-1.10.2.js"></script>
+<script src="../qi-style/js/bootstrap.js"></script>
+<script src="../qi-style/js/raphael-min.js"></script>
+<script src="../qi-style/js/morris-0.4.3.min.js"></script>
+<script src="../qi-style/js/tablesorter/jquery.tablesorter.js"></script>
+<script src="../qi-style/js/tablesorter/tables.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.tooltip.min.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.resize.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.pie.js"></script>
+<script type="text/javascript">
+	var app=angular.module('qicontent',[]);
+	app.controller("qioContent", function($scope, $http,$location) {
+			 $scope.uploadFile=function(){
+			 	var formData = new FormData();
+		        //2向表单对象中添加文件、文件名必须和html表单一致
+		        formData.append("file", file.files[0]);
+		        $http({
+		            //请求方式必须为post
+		            method : 'POST',
+		            url: "../uploadFile.action",
+		            //上传数据
+		            data : formData,
+		            //'Content-Type' : undefined : angularJS自动识别类型,自动识别multipart/formdata
+		            headers : {
+		                'Content-Type' : undefined
+		            },
+		            //angular.identity:将会把表单数据进行序列化 key=value&key=value
+		            transformRequest : angular.identity
+		        }).success(function(data){
+		            // 上传成功
+		            if (data.success) {
+		                // 保存回显的文件存放url地址
+		                $scope.entity.pic=data.message;
+		            } else {
+		                // 上传失败
+		                alert(data.message);
+		            }
+		        });
+		    };
+	 	
+		//添加
+			$scope.saveContent=function(){
+			if($scope.entity.id!=null){
+				$http.post("../ocontent/updateContent.action",$scope.entity ).success(
+ 						function(response){
+ 							if(response.success){
+ 								alert("修改成功");
+ 								$scope.entity={};
+ 							}else{
+ 								alert(response.message);
+ 							}
+ 						}		
+ 					);
+			}else{
+				$http.post("../ocontent/addContent.action",$scope.entity ).success(
+						function(response){
+							if(response.success){
+								alert("新增成功");
+								$scope.entity={};
+							}else{
+								alert(response.message);
+							}
+						}		
+					);
+				}
+			}
+				
+		$scope.findContentCategoryList = function(){
+			$http.get("../ocontent/findAll.action").success(
+					function(response){
+						$scope.contentCategoryList=response;
+					}
+			 );
+		}
+			
+		 //查询到商品
+		$scope.findContent = function() {
+			var id = $location.search()["id"]
+			if (id == null) {
+				return;
+			}
+			$http.get("../ocontent/findContent.action?id=" + id).success(
+					function(answer) {
+						$scope.entity = answer;
+					});
+		}
+		 
+	});
+</script>
+</head>
+<body class="hold-transition skin-green sidebar-mini" ng-app="qicontent" ng-controller="qioContent" ng-init="findContentCategoryList() ;findContent() ">
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>
+					广告管理 <small>广告添加</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="../qihome.html"><i class="fa fa-home"></i>
+							系统首页</a></li>
+					<li><a href="../qi-admin/qicontent.html"><i class="fa fa-list-ol"></i>
+							广告列表</a></li>
+					<li class="active"><i class="fa fa-plus"></i> 广告添加</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<form class="form-horizontal">
+				<div class="form-group">
+				<label class="col-sm-2 control-label">广告分类</label>
+				<div class="col-sm-10">
+					 <select class="form-control" ng-model="entity.categoryId" ng-options="item.id as item.name for item in contentCategoryList"></select>
+               	</div>
+				</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">广告标题</label>
+						<div class="col-sm-10">
+							<input class="form-control" ng-model="entity.title">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">广告标签</label>
+						<div class="col-sm-10">
+							<input class="form-control" ng-model="entity.subTitle">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">广告描述</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="3" ng-model="entity.titleDesc" ></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">链接</label>
+						<div class="col-sm-10">
+							<input class="form-control" ng-model="entity.url">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" >上传图片</label>
+					
+					<div class="col-sm-10">                                 
+								 <table class="table table-bordered table-striped">
+								      	<tr>
+								      		<td>广告图片</td>
+								      		<td>
+												<table>
+													<tr>
+														<td>
+														<input type="file" id="file" />				                
+											                <button class="btn btn-default" type="button" ng-click="uploadFile()">
+										                   		上传
+											                </button>	
+											            </td>
+														<td>
+															<img  src="{{entity.pic}}" width="250px" height="100px">
+														</td>
+													</tr>						
+												</table>
+								      		</td>
+								      	</tr>		      	
+								</table>
+								  <!-- {{pojo.pic}} -->
+                                </div>
+                          </div>
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-info" ng-click="saveContent()">保存</button>
+						<button type="reset" class="btn btn-warning" onclick="window.location.href='../qi-admin/qicontent.html'">返回列表</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

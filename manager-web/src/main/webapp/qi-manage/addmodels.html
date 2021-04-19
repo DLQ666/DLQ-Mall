@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>品牌添加</title>
+<link rel="stylesheet" href="../qi-style/css/bootstrap.css">
+<link rel="stylesheet" href="../qi-style/css/qi-admin.css">
+<link rel="stylesheet"
+	href="../qi-style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../qi-style/css/morris-0.4.3.min.css">
+
+<!-- JavaScript -->
+<script src="../qi-style/js/jquery-1.10.2.js"></script>
+<script src="../qi-style/js/bootstrap.js"></script>
+<script src="../qi-style/js/raphael-min.js"></script>
+<script src="../qi-style/js/morris-0.4.3.min.js"></script>
+<script src="../qi-style/js/tablesorter/jquery.tablesorter.js"></script>
+<script src="../qi-style/js/tablesorter/tables.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.tooltip.min.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.resize.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.pie.js"></script>
+<!-- angular js引入 -->
+<script type="text/javascript" src="../qi-style/angularjs/angular.min.js"></script>
+<!-- 分页插件 -->
+<link rel="stylesheet" href="../qi-style/angularjs/pagination.css">
+<script type="text/javascript" src="../qi-style/angularjs/pagination.js"></script>
+<script type="text/javascript">
+	var app = angular.module("qiomodel", [ 'pagination' ]);
+	app.controller("qiomodelController", function($scope, $http, $location) {
+			//查询到型号
+			$scope.findModel = function() {
+				var id = $location.search()["id"]
+			    if (id == null) {
+					return;
+				} 
+				$http.get("../Model/findModel.action?id=" + id).success(
+						function(answer) {
+							$scope.show = answer;
+						});
+			}
+		
+		//增加规格行
+		$scope.show={oModelOptionList:[]};
+		$scope.addModelRow = function() {
+			$scope.show.oModelOptionList.push({});
+			
+		}
+		//删除规格行
+		$scope.delModelRow = function(index){
+			$scope.show.oModelOptionList.splice(index, 1);
+		}
+		
+		//保存
+		 $scope.saveModel = function(){
+			var addName = "addModel";
+			if($scope.show.oModel.id!=null){
+				addName = "updateModel"	;
+			}
+			$http.post("../Model/" + addName + ".action", $scope.show).success(
+					function(response){
+						if(response.success){
+							$scope.reloadList();
+						}else {
+							alert(response.message);
+						}
+				
+			});
+				
+		} 
+	});
+</script>
+</head>
+<body class="hold-transition skin-green sidebar-mini" ng-app="qiomodel"
+	ng-controller="qiomodelController" ng-init="findModel()">
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>
+					型号管理 <small>型号编辑</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="../qihome.html"><i class="fa fa-home"></i>
+							系统首页</a></li>
+					<li><a href="../qi-admin/qimodel.html"><i
+							class="fa fa-list-ol"></i> 型号列表</a></li>
+					<li class="active"><i class="fa fa-plus"></i> 型号编辑</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<form class="form-horizontal">
+					<div class="form-group" >
+						<label class="col-sm-2 control-label" style=" text-align:left " >规格名称</label>
+						</div>
+					<div class="form-group" >
+						<div class="col-sm-10">
+							<input class="form-control" ng-model="show.oModel.modelName">
+						</div>
+					</div>
+					
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary" title="新建" ng-click="addModelRow()">新增规格选项</button>
+					</div>
+			 		<table class="table table-bordered table-striped table-hover dataTable">
+                    	<thead>
+                      		<tr>
+				      			<th class="sorting">规格选项</th>
+				     	 		<th class="sorting">排序</th>																
+                      			<th class="sorting">操作</th>
+                      		</tr>	
+                   		</thead>
+                    <tbody>
+                      <tr ng-repeat="pojo in show.oModelOptionList">
+				            <td>
+				            	<input ng-model="pojo.specName" class="form-control" > 
+				            </td>
+				            <td>
+				            	<input ng-model="pojo.sort" class="form-control" > 
+				            </td>
+							<td>
+								<button type="button" class="btn btn-danger" title="删除" ng-click="delModelRow($index)"><i class="fa fa-trash-o"></i> 删除</button>
+							</td>
+                      </tr>
+					 
+                    </tbody>
+			  </table>
+
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-info" ng-click="saveModel()"> 保存 </button>
+						<button type="reset" class="btn btn-warning"
+							onclick="window.location.href='../qi-admin/qimodel.html'"> 返回列表 </button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

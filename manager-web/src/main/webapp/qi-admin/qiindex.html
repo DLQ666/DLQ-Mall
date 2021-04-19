@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>奇酷商城管理系统</title>
+<!-- 浏览器标签中小图标 -->
+<!-- 地址栏显示 -->
+<link rel="Shortcut Icon" href="/qi-style/icon.png"  type="image/x-icon" />
+<!-- 收藏栏也显示 -->
+<link rel="Bookmark" href="/qi-style/icon.png" type="image/x-icon" />
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../qi-style/css/bootstrap.css">
+<link rel="stylesheet" href="../qi-style/css/qi-admin.css">
+<link rel="stylesheet"
+	href="../qi-style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../qi-style/css/morris-0.4.3.min.css">
+<!-- JavaScript -->
+<script src="../qi-style/js/jquery-1.10.2.js"></script>
+<script src="../qi-style/js/bootstrap.js"></script>
+<script src="../qi-style/js/raphael-min.js"></script>
+<script src="../qi-style/js/morris-0.4.3.min.js"></script>
+<script src="../qi-style/js/tablesorter/jquery.tablesorter.js"></script>
+<script src="../qi-style/js/tablesorter/tables.js"></script>
+<!-- angular js引入 -->
+<script type="text/javascript" src="../qi-style/angularjs/angular.min.js"></script>
+
+<!-- 分页插件 -->
+<link rel="stylesheet" href="../qi-style/angularjs/pagination.css">
+<script type="text/javascript" src="../qi-style/angularjs/pagination.js"></script>
+<script type="text/javascript">
+	function SetIFrameHeight() {
+		var iframeid = document.getElementById("iframe"); //iframe id
+		if (document.getElementById) {
+			iframeid.height = document.documentElement.clientHeight;
+		}
+	}
+	var app = angular.module("qiologin",[]);
+	app.controller("qiologinService", function($scope, $http){
+		$scope.qiShowName = function(){
+			$http.get("../qiologin/qiusername.action").success(
+				function(answer){
+					$scope.showname = answer.logusername;
+				}
+			);
+		}
+	});
+
+</script>
+
+</head>
+
+<body class="hold-transition skin-green sidebar-mini" ng-app="qiologin" ng-controller="qiologinService" ng-init="qiShowName()">
+	<div id="wrapper">
+
+		<!-- 头部导航条 -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="qiindex.html">QIQOO电子商城后台管理系统</a>
+			</div>
+
+			<!-- 菜单栏 -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav side-nav">
+					<li class="active"><a class="fa fa-bars"> 系统功能菜单</a></li>
+					<li class="dropdown"><a href="qihome.html" target="iframe"><i
+							class="fa fa-home"></i> 系统首页</a></li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-tasks"></i> 品牌管理 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qibrand.html" target="iframe">品牌列表</a></li>
+							<li><a href="../qi-manage/addbrands.html" target="iframe">品牌添加</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-plane"></i> 型号管理 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qimodel.html" target="iframe">型号列表</a></li>
+							<li><a href="../qi-manage/addmodels.html" target="iframe">型号添加</a></li>
+						</ul></li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-th-large"></i> 分类管理 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qiclassify.html" target="iframe">分类列表</a></li>
+							<!-- <li><a href="../qi-manage/addclassify.html" target="iframe">分类添加</a></li> -->
+						</ul></li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-shopping-cart"></i> 商品管理 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qiitem.html" target="iframe">商品列表</a></li>
+							<li><a href="../qi-manage/addgoods.html" target="iframe">商品添加</a></li>
+							<!-- <li><a href="../qi-manage/addgoodspic.html" target="iframe">上传图片</a></li> -->
+						</ul>
+					</li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-desktop"></i> 广告管理 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qicontent.html" target="iframe">广告列表</a></li>
+							<li><a href="../qi-manage/addcontent.html" target="iframe">广告添加</a></li>
+							<!-- <li><a href="../qi-manage/addgoodspic.html" target="iframe">上传图片</a></li> -->
+						</ul>
+					</li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-comments"></i> 订单查看 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qiorder.html" target="iframe">订单用户列表</a></li>
+							<li><a href="qiorderitem.html" target="iframe">订单商品列表</a></li>
+							<!-- <li><a href="../qi-manage/addgoods.html" target="iframe">商品添加</a></li> -->
+							<!-- <li><a href="../qi-manage/addgoodspic.html" target="iframe">上传图片</a></li> -->
+						</ul>
+					</li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-user"></i> 用户查看 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="qiuser.html" target="iframe">用户列表</a></li>
+							<!-- <li><a href="../qi-manage/addgoods.html" target="iframe">商品添加</a></li> -->
+							<!-- <li><a href="../qi-manage/addgoodspic.html" target="iframe">上传图片</a></li> -->
+						</ul>
+					</li>
+					<li class="dropdown"><a href="#" target="iframe"
+						class="dropdown-toggle" data-toggle="dropdown"> 索引管理 <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-stopPropagation=”true”>
+							<li><a href="import.html" target="iframe">导入数据</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right navbar-user">
+					<li class="dropdown user-dropdown"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-user"></i>  欢迎用户：{{showname}} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<!-- <li><a href="#"><i class="fa fa-gear"></i> 修改密码</a></li> -->
+							<!-- <li class="divider"></li> -->
+							<li><a href="../qiquit"><i class="fa fa-power-off"></i> 退出登录</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- 内容区域 -->
+		<div class="content-wrapper">
+			<iframe width="100%" id="iframe" name="iframe"
+				onload="SetIFrameHeight()" frameborder="0" src="qihome.html"></iframe>
+
+		</div>
+	</div>
+</body>
+</html>

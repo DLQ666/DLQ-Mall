@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlq.mapper.QioUserMapper" >
+  <resultMap id="BaseResultMap" type="com.dlq.pojo.QioUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="custname" property="custname" jdbcType="VARCHAR" />
+    <result column="custpassword" property="custpassword" jdbcType="VARCHAR" />
+    <result column="custcall" property="custcall" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, custname, custpassword, custcall
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlq.pojo.QioUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from qio_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from qio_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from qio_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlq.pojo.QioUserExample" >
+    delete from qio_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlq.pojo.QioUser" >
+    insert into qio_user (id, custname, custpassword, 
+      custcall)
+    values (#{id,jdbcType=INTEGER}, #{custname,jdbcType=VARCHAR}, #{custpassword,jdbcType=VARCHAR}, 
+      #{custcall,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlq.pojo.QioUser" >
+    insert into qio_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="custname != null" >
+        custname,
+      </if>
+      <if test="custpassword != null" >
+        custpassword,
+      </if>
+      <if test="custcall != null" >
+        custcall,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="custpassword != null" >
+        #{custpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="custcall != null" >
+        #{custcall,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dlq.pojo.QioUserExample" resultType="java.lang.Integer" >
+    select count(*) from qio_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update qio_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.custname != null" >
+        custname = #{record.custname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custpassword != null" >
+        custpassword = #{record.custpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custcall != null" >
+        custcall = #{record.custcall,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update qio_user
+    set id = #{record.id,jdbcType=INTEGER},
+      custname = #{record.custname,jdbcType=VARCHAR},
+      custpassword = #{record.custpassword,jdbcType=VARCHAR},
+      custcall = #{record.custcall,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlq.pojo.QioUser" >
+    update qio_user
+    <set >
+      <if test="custname != null" >
+        custname = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="custpassword != null" >
+        custpassword = #{custpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="custcall != null" >
+        custcall = #{custcall,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlq.pojo.QioUser" >
+    update qio_user
+    set custname = #{custname,jdbcType=VARCHAR},
+      custpassword = #{custpassword,jdbcType=VARCHAR},
+      custcall = #{custcall,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

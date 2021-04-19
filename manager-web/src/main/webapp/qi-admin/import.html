@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title></title>
+
+<!-- Bootstrap -->
+<link href="../qi-style/css/bootstrap.css" rel="stylesheet">
+<link href="../qi-style/css/qi-admin.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="../qi-style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../qi-style/css/morris-0.4.3.min.css">
+<!-- angular js引入 -->
+<script type="text/javascript" src="../qi-style/angularjs/angular.min.js"></script>
+<!-- JavaScript -->
+<script src="../qi-style/js/jquery-1.10.2.js"></script>
+<script src="../qi-style/js/bootstrap.js"></script>
+<script src="../qi-style/js/raphael-min.js"></script>
+<script src="../qi-style/js/morris-0.4.3.min.js"></script>
+<script src="../qi-style/js/tablesorter/jquery.tablesorter.js"></script>
+<script src="../qi-style/js/tablesorter/tables.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.tooltip.min.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.resize.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.pie.js"></script>
+
+
+<script type="text/javascript">
+ function importIndex() {
+	$.post("/index/import.action",function(data){
+		if(data.status == 200){
+			alert('导入索引库成功！！！！','导入索引库成功！！！！');
+		}else{
+			alert('导入索引库失败~~~~~','');
+		}
+	});
+} 
+/* var app = angular.module("qio", []);
+app.controller("qioController", function($scope, $http, $location, $window) {
+		$scope.importIndex = function(data) {
+			if(data.status == 200){
+				$http.post("/index/import.action", $scope.show).success(
+						function(response) {
+							if (response.success) {
+								alert('提示','导入索引库成功！！！！');
+							}
+				});
+			} else{
+				alert('提示','导入索引库失败~~~~~');
+			} 
+			
+		}
+});	 */	
+</script>
+<body >
+	<div>
+	<a class="btn btn-info" style="margin-top:70px;margin-left:20px" onclick="importIndex()">一键导入商品到索引库</a>
+	</div>
+	
+	
+</body>
+</html>

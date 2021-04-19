@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>订单商品</title>
+<link rel="stylesheet" href="../qi-style/css/bootstrap.css">
+<!-- 地址栏显示 -->
+<link rel="Shortcut Icon" href="/qi-style/icon.png"  type="image/x-icon" />
+<link rel="stylesheet" href="../qi-style/css/qi-admin.css">
+<link rel="stylesheet"
+	href="../qi-style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../qi-style/css/morris-0.4.3.min.css">
+
+<!-- JavaScript -->
+<script src="../qi-style/js/jquery-1.10.2.js"></script>
+<script src="../qi-style/js/bootstrap.js"></script>
+<script src="../qi-style/js/raphael-min.js"></script>
+<script src="../qi-style/js/morris-0.4.3.min.js"></script>
+<script src="../qi-style/js/tablesorter/jquery.tablesorter.js"></script>
+<script src="../qi-style/js/tablesorter/tables.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.tooltip.min.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.resize.js"></script>
+<script src="../qi-style/js/flot/jquery.flot.pie.js"></script>
+
+<!-- angular js引入 -->
+<script type="text/javascript" src="../qi-style/angularjs/angular.min.js"></script>
+
+<!-- 分页插件 -->
+<link rel="stylesheet" href="../qi-style/angularjs/pagination.css">
+<script type="text/javascript" src="../qi-style/angularjs/pagination.js"></script>
+
+
+<style>
+td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
+
+<script type="text/javascript">
+	var app = angular.module("qio", [ 'pagination' ]);
+	app.controller("qioController", function($scope, $http, $location, $window) {
+		$scope.findList = function() {
+			$http.get("../order/seekOrderItemAll.action").success(
+					function(answer) {
+						$scope.blist = answer;
+					});
+		}
+
+		$scope.qiPaginationCofig = {
+			//当前页
+			currentPage : 1,
+			//总记录数
+			totalItems : 10,
+			//每页记录数
+			itemsPerPage : 5,
+			//下拉分页选项
+			perPageOptions : [ 10, 20, 30, 40, 50 ],
+			//页码变更自动触发onChange
+			onChange : function() {
+				$scope.renovateList();
+			}
+		}
+		//刷新
+		$scope.renovateList = function() {
+			$scope.findPages($scope.qiPaginationCofig.currentPage,	$scope.qiPaginationCofig.itemsPerPage);
+		}
+	
+		$scope.findPages = function(pageNum, pageRows) {
+			$http.get("../qioPage/findPages8.action?pageNum=" + pageNum + "&pageRows=" + pageRows).success(
+					function(answer) {
+						$scope.blist = answer.rows;
+						$scope.qiPaginationCofig.totalItems = answer.total;
+					});
+			
+		
+		}
+
+		//添加
+		$scope.addBrand = function() {
+				$http.post("../obrand/addBrand.action", $scope.show).success(
+						function(response) {
+							if (response.success) {
+								$scope.renovateList();
+							} else {
+								alert(response.message);
+							}
+					    });
+		}
+		//查询到品牌
+		$scope.findcBrand = function() {
+			var id = $location.search()["id"]
+		    if (id == null) {
+				return;
+			} 
+			$http.get("../obrand/findcBrand.action?id=" + id).success(
+					function(answer) {
+						$scope.show = answer;
+					});
+		}
+		
+		//勾选选中品牌业务逻辑---点击存入集合再次点击取消后集合中对应元素也消失
+		$scope.selectBid = [];//要删除时的多选存入这个集合
+		
+		$scope.updateSelect = function($event, id, call){
+			if($event.target.checked){
+				$scope.selectBid.push(id);//push方法是将元素添加到集合
+			}else{
+				$scope.selectBid.splice($scope.selectBid.indexOf(id), 1);//$scope.selectBid.indexOf(id)为参数位置，1代表移除个数
+			}
+			$scope.chAr[call] = $event.target.checked;
+			$scope.chAll = $scope.blist.length == $scope.selectBid.length;
+		}
+		
+		$scope.chAr = [];
+		$scope.checkAll = function($event){
+			$scope.selectBid = [];
+			for(var call = 0; call<$scope.blist.length; call++){
+				$scope.chAr[call] = $event.target.checked;
+				if($event.target.checked){
+					$scope.selectBid.push($scope.blist[call].id);
+				}
+			}
+			$scope.chAll = $scope.blist.length == $scope.selectBid.length;
+		}
+		
+		/* $scope.search = function(pageNum, pageRows){
+			
+		} */
+		
+		//删除选中
+		$scope.deleteBrand = function(){
+		 if($scope.selectBid.length>0){
+		  if(confirm("确定删除吗？")){
+			$http.get("../obrand/delBrand.action?bid=" + $scope.selectBid).success(
+				function(answer){
+					if(answer.success){
+						//刷新
+						$scope.renovateList();
+					}else{
+						alert(answer.message);
+					}
+				}	
+			);
+			
+		  }	
+		 }else{
+		        alert("请选择要删除的品牌！");
+		    }
+	   }
+	});
+</script>
+
+</head>
+<body class="hold-transition skin-green sidebar-mini" ng-app="qio" ng-controller="qioController">
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>
+					订单查看 <small>订单列表</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="qihome.html"><i class="fa fa-home"></i> 系统首页</a></li>
+					<li class="active"><i class="fa fa-list-ol"></i> 订单列表</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="table-responsive">
+			<table
+				class="table table-bordered table-hover table-striped tablesorter"
+				style="table-layout: fixed">
+				<thead>
+					<tr>
+						<!-- <td><input  type="checkbox" ng-click="checkAll($event)" ng-checked="chAll"></td> -->
+						<td>订单ID</td>
+						<td>商品数量</td>
+						<td>商品名称</td>
+						<td>商品总价</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="show in blist">
+						<!-- <td><input type="checkbox" ng-click="updateSelect($event,show.id,$index)" ng-checked="chAr[$index]"></td> -->
+						<td>{{show.orderId}}</td>
+						<td>{{show.num}}</td>
+						<td>{{show.title}}</td>
+						<td>{{show.totalFee}}</td>
+						<!-- <td class="text-center"><input style="float: left"
+							type="button" class="btn btn-danger btn-xs" value="修改"
+							onclick="window.location.href='qi-manage/addbrands.html#?id={{show.id}}'"></td> -->
+						<td class="text-left"><a class="btn btn-danger btn-xs" 
+							href="../qi-manage/showorderitem.html#?id={{show.id}}">查看</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- 测试 -->
+			<!-- {{selectBid}} -->
+			<!-- {{ conf.totalItems }} -->
+			<!-- 分页插件 -->
+			<tm-pagination conf="qiPaginationCofig"></tm-pagination>
+		</div>
+	</div>
+
+</body>
+</html>

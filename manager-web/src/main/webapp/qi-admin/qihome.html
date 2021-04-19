@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商品列表</title>
+
+<!-- Bootstrap -->
+<link href="../qi-style/css/bootstrap.css" rel="stylesheet">
+<link href="../qi-style/css/qi-admin.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="../qi-style/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../qi-style/css/morris-0.4.3.min.css">
+<!-- JavaScript -->
+<script src="../qi-style/js/jquery-1.10.2.js"></script>
+<script src="../qi-style/js/bootstrap.js"></script>
+<script src="../qi-style/js/raphael-min.js"></script>
+<script src="../qi-style/js/morris-0.4.3.min.js"></script>
+<script src="../qi-style/js/tablesorter/jquery.tablesorter.js"></script>
+<script src="../qi-style/js/tablesorter/tables.js"></script>
+<!-- angular js引入 -->
+<script type="text/javascript" src="../qi-style/angularjs/angular.min.js"></script>
+
+<link rel="stylesheet" href="../qi-style/angularjs/pagination.css">
+<script type="text/javascript" src="../qi-style/angularjs/panelnumber.js"></script>
+<script type="text/javascript" src="../qi-style/angularjs/panelnumber2.js"></script>
+<!-- <script type="text/javascript" src="../qi-style/js/qi-item-panel.js"></script> -->
+<!-- <script type="text/javascript" src="../qi-style/js/qi-brand-panel.js"></script> -->
+
+<script type="text/javascript">
+	var app = angular.module("qihome", []);
+	app.controller("qioController", function($scope, $http) {
+		 $scope.seekItemSum = function() {
+			$http.get("../oitem/seekSum.action").success(
+					function(answer) {
+						$scope.ilist = answer.itemsum;
+					});
+		}
+		
+		$scope.seekBrandSum = function() {
+			$http.get("../obrand/seekBrandSum.action").success(
+					function(answer) {
+						$scope.blist = answer.brandsum;
+					});
+			
+		} 
+		$scope.seekOrderSum = function() {
+			$http.get("../order/seekOrderSum.action").success(
+					function(answer) {
+						$scope.olist = answer.ordernum;
+					});
+			
+		}
+		$scope.seekUserSum = function() {
+			$http.get("../ouser/seekUserSum.action").success(
+					function(answer) {
+						$scope.ulist = answer.usersum;
+					});
+			
+		}
+		$scope.seekContentSum = function() {
+			$http.get("../ocontent/seekContentSum.action").success(
+					function(answer) {
+						$scope.clist = answer.contentsum;
+					});
+			
+		}
+		
+	});
+	//彩蛋获取当前系统时间
+	$(function() {
+
+	    var myDate = new Date;
+	    var year = myDate.getFullYear(); //获取当前年
+	    var mon = myDate.getMonth() + 1; //获取当前月
+	    var date = myDate.getDate(); //获取当前日
+	    var h = myDate.getHours();//获取当前小时数(0-23)
+	    var m = myDate.getMinutes();//获取当前分钟数(0-59)
+	    // var s = myDate.getSeconds();//获取当前秒
+	    var week = myDate.getDay();
+	    var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+	    console.log(year, mon, date, weeks[week])
+	    $("#time").html(year + "年" + mon + "月" + date + "日" + "&nbsp;&nbsp;" + weeks[week] +"&nbsp;&nbsp;" + h + "点" + m +"分");
+	})
+</script>
+<body class="hold-transition skin-green sidebar-mini" ng-app="qihome" ng-controller="qioController" 
+		ng-init="seekItemSum(); seekBrandSum();seekOrderSum();seekUserSum();seekContentSum()">
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>
+					控制面板 <small>系统首页</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li class="active"><i class="fa fa-home"></i> 系统首页</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<div class="row" >
+							<div class="col-xs-6">
+								<i class="fa fa-shopping-cart fa-5x"></i>
+							</div>
+							<div class="col-xs-6 text-right"  >
+								<p class="announcement-heading" >{{ilist}}</p>
+								<p class="announcement-text">商品数量</p>
+							</div>
+						</div>
+					</div>
+					<a href="qiitem.html">
+						<div class="panel-footer announcement-bottom">
+							<div class="row">
+								<div class="col-xs-6">查看</div>
+								<div class="col-xs-6 text-right">
+									<i class="fa fa-arrow-circle-right"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			
+			<div class="col-lg-3">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<div class="row"  >
+							<div class="col-xs-6">
+								<i class="fa fa-desktop fa-5x"></i>
+							</div>
+							<div class="col-xs-6 text-right" >
+								<p class="announcement-heading">{{clist}}</p>
+								<p class="announcement-text">广告数量</p>
+							</div>
+						</div>
+					</div>
+					<a href="qicontent.html">
+						<div class="panel-footer announcement-bottom">
+							<div class="row">
+								<div class="col-xs-6">查看</div>
+								<div class="col-xs-6 text-right">
+									<i class="fa fa-arrow-circle-right"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-6">
+								<i class="fa fa-user fa-5x"></i>
+							</div>
+							<div class="col-xs-6 text-right">
+								<p class="announcement-heading">{{ulist}}</p>
+								<p class="announcement-text">用户数</p>
+							</div>
+						</div>
+					</div>
+					<a href="qiuser.html">
+						<div class="panel-footer announcement-bottom">
+							<div class="row">
+								<div class="col-xs-6">查看</div>
+								<div class="col-xs-6 text-right">
+									<i class="fa fa-arrow-circle-right"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+
+			<div class="col-lg-3">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-6">
+								<i class="fa fa-comments fa-5x"></i>
+							</div>
+							<div class="col-xs-6 text-right">
+								<p class="announcement-heading">{{olist}}</p>
+								<p class="announcement-text">订单数</p>
+							</div>
+						</div>
+					</div>
+					<a href="qiorder.html">
+						<div class="panel-footer announcement-bottom">
+							<div class="row">
+								<div class="col-xs-6">查看</div>
+								<div class="col-xs-6 text-right">
+									<i class="fa fa-arrow-circle-right"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="alert alert-info alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<a target="_blank" class="alert-link">
+					欢迎使用&nbsp;商城后台管理系统
+				</a>
+		</div>
+		<div class="alert alert-info alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<a target="_blank" class="alert-link">
+					系统当前时间：<span id="time"></span>
+				</a>
+		</div>
+		<div class="alert alert-info alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<a target="_blank" class="alert-link">
+					应用虚拟机 VMware® Workstation 12 Pro
+				</a>
+		</div>
+		<div class="alert alert-info alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<a target="_blank" class="alert-link">
+					应用数据库 MySql v5.5
+				</a>
+		</div>
+		<div class="alert alert-info alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<a target="_blank" class="alert-link">
+					开发语言 Java JDK v1.8
+				</a>
+		</div>
+	</div>
+</body>
+</html>
